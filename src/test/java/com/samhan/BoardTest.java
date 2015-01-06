@@ -64,8 +64,27 @@ public class BoardTest {
     assertArrayEquals(new Integer[0], board.possibleMoves());
   }
 
+
+
   @Test
   public void testWinCases() {
+    assertFalse(new Board().hasWon('x'));
+    assertFalse(new Board().hasWon('o'));
+    assertTrue(new Board("xxx------").hasWon('x'));
+    assertFalse(new Board("xxx------").hasWon('o'));
+    assertTrue(new Board("ooo------").hasWon('o'));
+    assertFalse(new Board("ooo------").hasWon('x'));
+    assertTrue(new Board("---xxx---").hasWon('x'));
+    assertTrue(new Board("------xxx").hasWon('x'));
+    assertTrue(new Board("x---x---x").hasWon('x'));
+    assertTrue(new Board("--x-x-x--").hasWon('x'));
+  }
 
+  @Test
+  public void testEnded(){
+      assertFalse(new Board().hasEnded());
+      assertTrue(new Board("xxx------").hasEnded());
+      assertTrue(new Board("ooo------").hasEnded());
+      assertTrue(new Board("xoxxoxoxo").hasEnded());
   }
 }

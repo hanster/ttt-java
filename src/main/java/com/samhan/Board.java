@@ -10,6 +10,15 @@ import java.util.List;
 public class Board {
   private char[] positions;
   private char turn;
+  private int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
+          {3, 4, 5},
+          {6, 7, 8},
+          {0, 3, 6}, // verticals
+          {1, 4, 7},
+          {2, 5, 8},
+          {0, 4, 8}, // diagonals
+          {2, 4, 6}};
+
 
   public Board(final String positions, final char turn) {
     this.positions = positions.toCharArray();
@@ -48,12 +57,30 @@ public class Board {
       }
     }
 
-    Integer[] possibleMovesList = possibleMoves.toArray(new Integer[0]);
-
-    return possibleMovesList;
+    return possibleMoves.toArray(new Integer[possibleMoves.size()]);
   }
 
   public boolean isPositionFree(final int position) {
     return positions[position] == '-';
+  }
+
+  public boolean hasWon(char turn) {
+    // for each winning pattern check that all the positions are the same as the turn
+    for (int[] winPattern : winPatterns) {
+      boolean winFlag = true;
+      for (int idx : winPattern) {
+        if (positions[idx] != turn) {
+          winFlag = false;
+        }
+      }
+      if (winFlag) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean hasEnded() {
+    return hasWon('x') || hasWon('o') || possibleMoves().length == 0;
   }
 }
