@@ -44,8 +44,10 @@ public class Board {
   }
 
   public Board move(final int position) {
-    positions[position] = turn;
-    return new Board(new String(positions), (turn == 'x' ? 'o' : 'x'));
+    char[] newPositions = positions.clone();
+    newPositions[position] = turn;
+
+    return new Board(new String(newPositions), (turn == 'x' ? 'o' : 'x'));
   }
 
   public Integer[] possibleMoves() {
@@ -82,5 +84,34 @@ public class Board {
 
   public boolean hasEnded() {
     return hasWon('x') || hasWon('o') || possibleMoves().length == 0;
+  }
+
+  public int minimax() {
+    if (hasWon('x')) {return 100;}
+    if (hasWon('o')) {return -100;}
+    if (possibleMoves().length == 0) {return 0;}
+
+    Integer mm = null;
+    for (Integer idx : possibleMoves()) {
+      Integer value = move(idx).minimax();
+      if (mm == null || turn == 'x' && mm < value || turn == 'o' && value < mm) {
+        mm = value;
+      }
+    }
+
+    return mm + (mm < 0 ? 1 : -1);
+  }
+
+  public int bestMove() {
+    Integer mm = null;
+    int best = -1;
+    for (Integer idx : possibleMoves()) {
+      Integer value = move(idx).minimax();
+      if (mm == null || turn == 'x' && mm < value || turn == 'o' && value < mm) {
+        mm = value;
+        best = idx;
+      }
+    }
+    return best;
   }
 }

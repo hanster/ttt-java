@@ -82,9 +82,32 @@ public class BoardTest {
 
   @Test
   public void testEnded(){
-      assertFalse(new Board().hasEnded());
-      assertTrue(new Board("xxx------").hasEnded());
-      assertTrue(new Board("ooo------").hasEnded());
-      assertTrue(new Board("xoxxoxoxo").hasEnded());
+    assertFalse(new Board().hasEnded());
+    assertTrue(new Board("xxx------").hasEnded());
+    assertTrue(new Board("ooo------").hasEnded());
+    assertTrue(new Board("xoxxoxoxo").hasEnded());
+  }
+  
+  @Test
+  public void testMinimax(){
+    assertEquals( 100, new Board("xxx------", 'x').minimax());
+    assertEquals(-100, new Board("ooo------", 'o').minimax());
+    assertEquals(   0, new Board("xoxxoxoxo", 'x').minimax());
+    assertEquals(  99, new Board("-xx------", 'x').minimax());
+    assertEquals( -99, new Board("-oo------", 'o').minimax());
+    assertEquals( -96, new Board("-oo------", 'x').minimax());
+  }
+
+  @Test
+  public void testBestMove(){
+    assertEquals( 1, new Board("o-o------", 'x').bestMove());
+    assertEquals( 0, new Board("-xx------", 'x').bestMove());
+    assertEquals( 1, new Board("o-o------", 'o').bestMove());
+    assertEquals( 0, new Board("-oo------", 'x').bestMove());
+    assertEquals( 8, new Board("" +
+            "xoo" +
+            "-x-" +
+            "---", 'o').bestMove());
+
   }
 }
