@@ -2,7 +2,7 @@
 
 ## Getting started ##
 ### Built with the following ###
-* JRE 1.8
+* JRE 1.6
 * Maven 3
 
 ### Build and Run ###
