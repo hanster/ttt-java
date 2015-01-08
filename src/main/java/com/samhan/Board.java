@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * todo (hansa): Document Me
+ * Tic Tac Toe board logic
  * @version $Revision$
  */
 public class Board {
@@ -87,19 +87,27 @@ public class Board {
   }
 
   public int minimax() {
-    if (hasWon('x')) {return 100;}
-    if (hasWon('o')) {return -100;}
-    if (possibleMoves().length == 0) {return 0;}
+    if (hasWon('x')) {
+      return 100;
+    }
+    if (hasWon('o')) {
+      return -100;
+    }
+    if (possibleMoves().length == 0) {
+      return 0;
+    }
 
     Integer mm = null;
-    for (Integer idx : possibleMoves()) {
+    // for each possible move call minimax
+    for (int idx : possibleMoves()) {
       Integer value = move(idx).minimax();
+      // check if the value is a new mini or max value
       if (mm == null || turn == 'x' && mm < value || turn == 'o' && value < mm) {
         mm = value;
       }
     }
-
-    return mm + (mm < 0 ? 1 : -1);
+    // need to account for depth
+    return mm + (mm > 0 ? -1 : 1);
   }
 
   public int bestMove() {

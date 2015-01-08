@@ -96,6 +96,7 @@ public class BoardTest {
     assertEquals(  99, new Board("-xx------", 'x').minimax());
     assertEquals( -99, new Board("-oo------", 'o').minimax());
     assertEquals( -96, new Board("-oo------", 'x').minimax());
+    assertEquals(  96, new Board("-xx------", 'o').minimax());
   }
 
   @Test
@@ -108,6 +109,6 @@ public class BoardTest {
             "xoo" +
             "-x-" +
             "---", 'o').bestMove());
-
+    assertEquals(-1, new Board("oxooxoxox", 'o').bestMove());
   }
 }
