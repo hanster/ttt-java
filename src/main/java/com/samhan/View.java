@@ -8,4 +8,5 @@ public interface View {
     public void displayBoard();
     public void choosePlayerMove();
     public boolean hasGameEnded();
+    public String getUserInput();
 }

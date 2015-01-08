@@ -9,14 +9,16 @@ import java.io.InputStreamReader;
  */
 public class ConsoleGame {
 
+    private int[] validInputMoves = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
     private static final String lineSeperator = "-+-+-";
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
+
     public ConsoleGame () {
         this.board = new Board();
     }
-    public static void main (String args[]) {
 
+    public static void main (String args[]) {
         boolean newGame = true;
         while (newGame) {
             ConsoleGame consoleGame = new ConsoleGame();
@@ -36,8 +38,10 @@ public class ConsoleGame {
 
             System.out.println("Game over");
             displayResult(consoleGame);
-            newGame = getNewGameInput();
+            newGame = consoleGame.getNewGameInput();
         }
+
+        System.out.println("Thanks for playing.");
     }
 
 
@@ -45,33 +49,50 @@ public class ConsoleGame {
         return this.board.hasEnded();
     }
 
-    private static boolean getNewGameInput() {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private boolean getNewGameInput() {
         boolean newGame = false;
-        try {
-            boolean inputValid = false;
-            while (!inputValid) {
-                System.out.print("Start a new game? ");
-                String input = br.readLine();
-                if (input.toLowerCase().equals("y") ||
-                        input.toLowerCase().equals("yes")) {
-                    inputValid = true;
+        boolean inputValid;
+        do {
+            System.out.print("Start a new game? ");
+            String input = getUserInput();
+            if (isStringYesOrNo(input)) {
+                inputValid = true;
+                if (isStringYes(input)) {
                     newGame = true;
-                } else if ( input.toLowerCase().equals("n") ||
-                input.toLowerCase().equals("no")){
-                    inputValid = true;
+                } else if (isStringNo(input)) {
                     newGame = false;
-                } else {
-                    System.out.println("Invalid input ( yes or no)");
                 }
+            } else {
+                inputValid = false;
+                System.out.println("Invalid input ( yes or no)");
             }
+        } while (!inputValid);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return newGame;
     }
 
+    private boolean isStringYesOrNo(String str) {
+        return (isStringYes(str) || isStringNo(str));
+    }
+
+    private boolean isStringYes(String str) {
+        return (str.toLowerCase().equals("y") || str.toLowerCase().equals("yes"));
+    }
+
+    private boolean isStringNo(String str) {
+        return ( str.toLowerCase().equals("n") || str.toLowerCase().equals("no"));
+    }
+
+    public String getUserInput() {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input = "";
+        try {
+             input = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return input;
+    }
 
 
     private static void displayResult(ConsoleGame consoleGame) {
@@ -108,28 +129,42 @@ public class ConsoleGame {
     }
 
     public void choseMove() {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        boolean validMove = false;
+        int i = 0;
+        while (!validMove) {
+            i = getValidMoveInput();
+            i--;
+            if (board.isPositionFree(i)) {
+                validMove = true;
+            } else {
+                System.out.println("Invalid move. Space already taken.");
+            }
+        }
+        board = board.move(i);
+    }
 
-        try{
-            boolean validMove = false;
-            int i = 0;
-            while (!validMove) {
-                System.out.print("Enter Move: ");
-                i = Integer.parseInt(br.readLine());
-                i--;
-                if (board.isPositionFree(i)) {
-                    validMove = true;
-                } else {
-                    System.out.println("Invalid move");
+    private int getValidMoveInput() {
+        int input = 1;
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.print("Enter Move: ");
+            try {
+                input = Integer.parseInt(getUserInput());
+            } catch (NumberFormatException e) {
+                input = -1;
+            }
+            for (int i : validInputMoves) {
+                if (input == i) {
+                    validInput = true;
                 }
             }
-            board = board.move(i);
-        }catch(NumberFormatException nfe){
-            System.err.println("Invalid Format!");
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (!validInput) {
+                System.out.println("Invalid input. (1-9)");
+            }
         }
+        return input;
     }
+
 
     public String interSpaceWithChar(String string, char interChar) {
         StringBuilder sb = new StringBuilder();
