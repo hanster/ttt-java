@@ -20,19 +20,17 @@ public class ConsoleGame {
 
     public static void main (String args[]) {
         boolean newGame = true;
+        ConsoleGame consoleGame = null;
         while (newGame) {
-            ConsoleGame consoleGame = new ConsoleGame();
-            System.out.println("TTT console edition");
-            System.out.println("Player = x");
-            System.out.println("Computer = o");
+            consoleGame = new ConsoleGame();
+            consoleGame.displayWelcomeMsg();
             consoleGame.displayBoard();
             while (!consoleGame.hasGameEnded()) {
                 consoleGame.choseMove();
-                int bestMove = consoleGame.board.bestMove();
-                if (bestMove == -1) {
+                if (consoleGame.hasGameEnded()) {
                     break;
                 }
-                consoleGame.board = consoleGame.board.move(bestMove);
+                consoleGame.makeComputerMove();
                 consoleGame.displayBoard();
             }
 
@@ -40,10 +38,26 @@ public class ConsoleGame {
             displayResult(consoleGame);
             newGame = consoleGame.getNewGameInput();
         }
+        consoleGame.displayGoodbyeMsg();
 
-        System.out.println("Thanks for playing.");
     }
 
+    private void makeComputerMove() {
+        int bestMove = this.board.bestMove();
+        this.board = this.board.move(bestMove);
+    }
+
+
+    private void displayWelcomeMsg() {
+        System.out.println("TTT console edition");
+        System.out.println("Player = x");
+        System.out.println("Computer = o");
+    }
+
+    private void displayGoodbyeMsg() {
+        System.out.println("Thanks for playing.");
+
+    }
 
     public boolean hasGameEnded() {
         return this.board.hasEnded();
