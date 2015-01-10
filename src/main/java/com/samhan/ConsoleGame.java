@@ -14,48 +14,28 @@ public class ConsoleGame {
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
 
-    public ConsoleGame () {
+    public ConsoleGame() {
         this.board = new Board();
     }
 
-    public static void main (String args[]) {
-        boolean newGame = true;
-        ConsoleGame consoleGame = null;
-        while (newGame) {
-            consoleGame = new ConsoleGame();
-            consoleGame.displayWelcomeMsg();
-            consoleGame.displayBoard();
-            while (!consoleGame.hasGameEnded()) {
-                consoleGame.choseMove();
-                if (consoleGame.hasGameEnded()) {
-                    break;
-                }
-                consoleGame.makeComputerMove();
-                consoleGame.displayBoard();
-            }
-
-            System.out.println("Game over");
-            displayResult(consoleGame);
-            newGame = consoleGame.getNewGameInput();
-        }
-        consoleGame.displayGoodbyeMsg();
-
-    }
-
-    private void makeComputerMove() {
-        int bestMove = this.board.bestMove();
+    public void makeComputerMove() {
+        int bestMove = this.board.calcBestMove();
         this.board = this.board.move(bestMove);
     }
 
-
-    private void displayWelcomeMsg() {
-        System.out.println("TTT console edition");
-        System.out.println("Player = x");
-        System.out.println("Computer = o");
+    private void output(String string) {
+        System.out.println(string);
     }
 
-    private void displayGoodbyeMsg() {
-        System.out.println("Thanks for playing.");
+
+    public void displayWelcomeMsg() {
+        output("TTT console edition");
+        output("Player = x");
+        output("Computer = o");
+    }
+
+    public void displayGoodbyeMsg() {
+        output("Thanks for playing.");
 
     }
 
@@ -63,11 +43,11 @@ public class ConsoleGame {
         return this.board.hasEnded();
     }
 
-    private boolean getNewGameInput() {
+    public boolean getNewGameInput() {
         boolean newGame = false;
         boolean inputValid;
         do {
-            System.out.print("Start a new game? ");
+            output("Start a new game? ");
             String input = getUserInput();
             if (isStringYesOrNo(input)) {
                 inputValid = true;
@@ -78,7 +58,7 @@ public class ConsoleGame {
                 }
             } else {
                 inputValid = false;
-                System.out.println("Invalid input ( yes or no)");
+                output("Invalid input ( yes or no)");
             }
         } while (!inputValid);
 
@@ -94,14 +74,14 @@ public class ConsoleGame {
     }
 
     private boolean isStringNo(String str) {
-        return ( str.toLowerCase().equals("n") || str.toLowerCase().equals("no"));
+        return (str.toLowerCase().equals("n") || str.toLowerCase().equals("no"));
     }
 
-    public String getUserInput() {
+    private String getUserInput() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
         try {
-             input = br.readLine();
+            input = br.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,38 +89,38 @@ public class ConsoleGame {
     }
 
 
-    private static void displayResult(ConsoleGame consoleGame) {
-        if (consoleGame.board.hasWon('x')) {
-            System.out.println("x wins");
-        }
-        else if (consoleGame.board.hasWon('o')) {
-            System.out.println("o wins");
-        }
-        else {
-            System.out.println("draw");
+    public void displayResult() {
+        if (board.hasWon('x')) {
+            output("x wins");
+        } else if (board.hasWon('o')) {
+            output("o wins");
+        } else {
+            output("draw");
         }
     }
 
     public void displayBoard() {
         outputBoard(this.board.toString());
-        System.out.println(legendLineSeperator);
-        displayBoardLegend();
     }
 
     public void displayBoardLegend() {
+        output(legendLineSeperator);
         outputBoard("123456789");
+        output(legendLineSeperator);
     }
 
     private void outputBoard(String boardString) {
-        String top = boardString.substring(0,3);
+        String top = boardString.substring(0, 3);
         String middle = boardString.substring(3, 6);
         String bottom = boardString.substring(6, 9);
         outputFormatedLine(top);
-        System.out.println(lineSeperator);
+        output(lineSeperator);
         outputFormatedLine(middle);
-        System.out.println(lineSeperator);
+        output(lineSeperator);
         outputFormatedLine(bottom);
     }
+
+
 
     public void choseMove() {
         boolean validMove = false;
@@ -151,7 +131,7 @@ public class ConsoleGame {
             if (board.isPositionFree(i)) {
                 validMove = true;
             } else {
-                System.out.println("Invalid move. Space already taken.");
+                output("Invalid move. Space already taken.");
             }
         }
         board = board.move(i);
@@ -161,7 +141,7 @@ public class ConsoleGame {
         int input = 1;
         boolean validInput = false;
         while (!validInput) {
-            System.out.print("Enter Move: ");
+            output("Enter Move: ");
             try {
                 input = Integer.parseInt(getUserInput());
             } catch (NumberFormatException e) {
@@ -173,7 +153,7 @@ public class ConsoleGame {
                 }
             }
             if (!validInput) {
-                System.out.println("Invalid input. (1-9)");
+                output("Invalid input. (1-9)");
             }
         }
         return input;
@@ -193,6 +173,11 @@ public class ConsoleGame {
     }
 
     private void outputFormatedLine(String line) {
-        System.out.println (interSpaceWithChar(line.replace('-', ' '), '|'));
+        output(interSpaceWithChar(line.replace('-', ' '), '|'));
     }
+
+    public void displayGameOver() {
+        output("Game Over");
+    }
+
 }

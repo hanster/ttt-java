@@ -16,25 +16,25 @@ public class BoardTest {
   public void testNewBoard() {
     final Board board = new Board();
     assertEquals("---------", board.toString());
-    assertEquals('x', board.turn());
+    assertEquals('x', board.getTurn());
   }
 
   @Test
   public void testMoveOnce() {
     Board board = new Board().move(0);
     assertEquals("x--------", board.toString());
-    assertEquals('o', board.turn());
+    assertEquals('o', board.getTurn());
 
     board = new Board().move(1);
     assertEquals("-x-------", board.toString());
-    assertEquals('o', board.turn());
+    assertEquals('o', board.getTurn());
   }
 
   @Test
   public void testMoveTwice() {
     Board board = new Board().move(1).move(2);
     assertEquals("-xo------", board.toString());
-    assertEquals('x', board.turn());
+    assertEquals('x', board.getTurn());
   }
 
   @Test
@@ -101,14 +101,14 @@ public class BoardTest {
 
   @Test
   public void testBestMove(){
-    assertEquals( 1, new Board("o-o------", 'x').bestMove());
-    assertEquals( 0, new Board("-xx------", 'x').bestMove());
-    assertEquals( 1, new Board("o-o------", 'o').bestMove());
-    assertEquals( 0, new Board("-oo------", 'x').bestMove());
+    assertEquals( 1, new Board("o-o------", 'x').calcBestMove());
+    assertEquals( 0, new Board("-xx------", 'x').calcBestMove());
+    assertEquals( 1, new Board("o-o------", 'o').calcBestMove());
+    assertEquals( 0, new Board("-oo------", 'x').calcBestMove());
     assertEquals( 8, new Board("" +
             "xoo" +
             "-x-" +
-            "---", 'o').bestMove());
-    assertEquals(-1, new Board("oxooxoxox", 'o').bestMove());
+            "---", 'o').calcBestMove());
+    assertEquals(-1, new Board("oxooxoxox", 'o').calcBestMove());
   }
 }
