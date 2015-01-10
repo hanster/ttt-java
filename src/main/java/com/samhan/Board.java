@@ -9,6 +9,8 @@ import java.util.List;
  * @version $Revision$
  */
 public class Board {
+    public static final char X_TURN = 'x';
+    public static final char O_TURN = 'o';
     private char[] positions;
     private char turn;
     private int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
@@ -20,20 +22,17 @@ public class Board {
             {0, 4, 8}, // diagonals
             {2, 4, 6}};
 
+    public Board() {
+        this("---------", X_TURN);
+    }
+
+    public Board(final String positions) {
+        this(positions, X_TURN);
+    }
 
     public Board(final String positions, final char turn) {
         this.positions = positions.toCharArray();
         this.turn = turn;
-    }
-
-    public Board() {
-        this.positions = "---------".toCharArray();
-        this.turn = 'x';
-    }
-
-    public Board(final String positions) {
-        this.positions = positions.toCharArray();
-        turn = 'x';
     }
 
     public String toString() {
@@ -48,7 +47,7 @@ public class Board {
         char[] newPositions = positions.clone();
         newPositions[position] = turn;
 
-        return new Board(new String(newPositions), (turn == 'x' ? 'o' : 'x'));
+        return new Board(new String(newPositions), (turn == X_TURN ? O_TURN : X_TURN));
     }
 
     public Integer[] possibleMoves() {
@@ -68,30 +67,34 @@ public class Board {
     }
 
     public boolean hasWon(char turn) {
-        // for each winning pattern check that all the positions are the same as the turn
-        for (int[] winPattern : winPatterns) {
-            boolean winFlag = true;
-            for (int idx : winPattern) {
-                if (positions[idx] != turn) {
-                    winFlag = false;
-                }
-            }
-            if (winFlag) {
+        for (int[] ints : winPatterns) {
+            if (allPositionsMatchTurn(ints, turn)) {
                 return true;
             }
         }
         return false;
     }
 
+    private boolean allPositionsMatchTurn(int[] positionsToMatch, char turnToMatch) {
+        boolean allMatchFlag = true;
+        for (int i : positionsToMatch) {
+            if (positions[i] != turnToMatch) {
+                allMatchFlag = false;
+                break;
+            }
+        }
+        return allMatchFlag;
+    }
+
     public boolean hasEnded() {
-        return hasWon('x') || hasWon('o') || possibleMoves().length == 0;
+        return hasWon(X_TURN) || hasWon(O_TURN) || possibleMoves().length == 0;
     }
 
     public int minimax() {
-        if (hasWon('x')) {
+        if (hasWon(X_TURN)) {
             return 100;
         }
-        if (hasWon('o')) {
+        if (hasWon(O_TURN)) {
             return -100;
         }
         if (possibleMoves().length == 0) {
@@ -103,7 +106,7 @@ public class Board {
         for (int idx : possibleMoves()) {
             Integer value = move(idx).minimax();
             // check if the value is a new mini or max value
-            if (mm == null || turn == 'x' && mm < value || turn == 'o' && value < mm) {
+            if (mm == null || turn == X_TURN && mm < value || turn == O_TURN && value < mm) {
                 mm = value;
             }
         }
@@ -116,7 +119,7 @@ public class Board {
         int best = -1;
         for (Integer idx : possibleMoves()) {
             Integer value = move(idx).minimax();
-            if (mm == null || turn == 'x' && mm < value || turn == 'o' && value < mm) {
+            if (mm == null || turn == X_TURN && mm < value || turn == O_TURN && value < mm) {
                 mm = value;
                 best = idx;
             }
