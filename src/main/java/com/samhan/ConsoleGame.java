@@ -13,7 +13,6 @@ public class ConsoleGame {
     private static final String lineSeperator = "-+-+-";
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
-
     public ConsoleGame() {
         this.board = new Board();
     }
@@ -40,7 +39,7 @@ public class ConsoleGame {
     }
 
     public boolean hasGameEnded() {
-        return this.board.hasEnded();
+        return BoardChecker.hasEnded(board.toString());
     }
 
     public boolean getNewGameInput() {
@@ -90,10 +89,10 @@ public class ConsoleGame {
 
 
     public void displayResult() {
-        if (board.hasWon('x')) {
-            output("x wins");
-        } else if (board.hasWon('o')) {
-            output("o wins");
+        if (BoardChecker.hasWon(board.toString(), Board.X_TURN)) {
+            output(Board.X_TURN +" wins");
+        } else if (BoardChecker.hasWon(board.toString(), Board.O_TURN)) {
+            output(Board.O_TURN +" wins");
         } else {
             output("draw");
         }

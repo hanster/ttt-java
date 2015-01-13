@@ -2,10 +2,7 @@ package com.samhan;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * todo (hansa): Document Me
@@ -50,45 +47,6 @@ public class BoardTest {
   }
 
   @Test
-  public void testPossibleMoves() {
-    Board board = new Board();
-    assertArrayEquals(new Integer[]{0, 1, 2, 3, 4, 5, 6, 7, 8}, board.possibleMoves());
-
-    board = new Board("xxx------");
-    assertArrayEquals(new Integer[]{3, 4, 5, 6, 7, 8}, board.possibleMoves());
-
-    board = new Board("--xxx---x");
-    assertArrayEquals(new Integer[]{0, 1, 5, 6, 7}, board.possibleMoves());
-
-    board = new Board("xxxoooxxx");
-    assertArrayEquals(new Integer[0], board.possibleMoves());
-  }
-
-
-
-  @Test
-  public void testWinCases() {
-    assertFalse(new Board().hasWon(Board.X_TURN));
-    assertFalse(new Board().hasWon(Board.O_TURN));
-    assertTrue(new Board("xxx------").hasWon(Board.X_TURN));
-    assertFalse(new Board("xxx------").hasWon(Board.O_TURN));
-    assertTrue(new Board("ooo------").hasWon(Board.O_TURN));
-    assertFalse(new Board("ooo------").hasWon(Board.X_TURN));
-    assertTrue(new Board("---xxx---").hasWon(Board.X_TURN));
-    assertTrue(new Board("------xxx").hasWon(Board.X_TURN));
-    assertTrue(new Board("x---x---x").hasWon(Board.X_TURN));
-    assertTrue(new Board("--x-x-x--").hasWon(Board.X_TURN));
-  }
-
-  @Test
-  public void testEnded(){
-    assertFalse(new Board().hasEnded());
-    assertTrue(new Board("xxx------").hasEnded());
-    assertTrue(new Board("ooo------").hasEnded());
-    assertTrue(new Board("xoxxoxoxo").hasEnded());
-  }
-  
-  @Test
   public void testMinimax(){
     assertEquals( 100, new Board("xxx------", Board.X_TURN).minimax());
     assertEquals(-100, new Board("ooo------", Board.O_TURN).minimax());
@@ -112,9 +70,4 @@ public class BoardTest {
     assertEquals(-1, new Board("oxooxoxox", Board.O_TURN).calcBestMove());
   }
 
-  @Test
-  public void testSameMoveTwice(){
-    Board board = new Board().move(1).move(1);
-
-  }
 }

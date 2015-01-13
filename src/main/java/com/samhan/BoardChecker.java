@@ -8,7 +8,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class BoardChecker {
-  private int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
+  private static int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
     {3, 4, 5},
     {6, 7, 8},
     {0, 3, 6}, // verticals
@@ -17,7 +17,7 @@ public class BoardChecker {
     {0, 4, 8}, // diagonals
     {2, 4, 6}};
 
-  public boolean hasWon(final String board, final char turn) {
+  public static  boolean hasWon(final String board, final char turn) {
     for (int[] ints : winPatterns) {
       if (allPositionsMatchTurn(board.toCharArray(), ints, turn)) {
         return true;
@@ -27,7 +27,7 @@ public class BoardChecker {
   }
 
 
-  private boolean allPositionsMatchTurn(char[] boardPositions, int[] positionsToMatch, char turnToMatch) {
+  private static boolean allPositionsMatchTurn(char[] boardPositions, int[] positionsToMatch, char turnToMatch) {
     boolean allMatchFlag = true;
     for (int i : positionsToMatch) {
       if (boardPositions[i] != turnToMatch) {
@@ -38,7 +38,7 @@ public class BoardChecker {
     return allMatchFlag;
   }
 
-  public Integer[] possibleMoves(String positions) {
+  public static Integer[]  possibleMoves(String positions) {
     char[] possitionChars = positions.toCharArray();
     List<Integer> possibleMoves = new ArrayList<Integer>();
 
@@ -51,7 +51,7 @@ public class BoardChecker {
     return possibleMoves.toArray(new Integer[possibleMoves.size()]);
   }
 
-  public boolean hasEnded(final String boardPositions) {
+  public static boolean hasEnded(final String boardPositions) {
     return hasWon(boardPositions, Board.X_TURN) || hasWon(boardPositions, Board.O_TURN) || possibleMoves(boardPositions).length == 0;
   }
 }
