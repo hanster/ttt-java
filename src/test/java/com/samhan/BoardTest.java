@@ -32,15 +32,22 @@ public class BoardTest {
   }
 
   @Test
-  public void isPositionFree() {
+  public void itReturnsTrueWhenPositionIsFree(){
     Board board = new Board("-x-ooo---");
 
     assertTrue(board.isPositionFree(0));
-    assertFalse(board.isPositionFree(1));
     assertTrue(board.isPositionFree(2));
-    assertFalse(board.isPositionFree(5));
-    assertTrue(board.isPositionFree(7));
     assertTrue(board.isPositionFree(8));
+    assertTrue(board.isPositionFree(7));
+
+  }
+
+  @Test
+  public void itReturnsFalseWhenPositionIsOccupied() {
+    Board board = new Board("-x-ooo---");
+
+    assertFalse(board.isPositionFree(1));
+    assertFalse(board.isPositionFree(5));
   }
 
   @Test

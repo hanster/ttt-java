@@ -1,6 +1,10 @@
 package com.samhan;
 
-import com.samhan.Ai.Ai;
+import com.samhan.ai.Ai;
+import com.samhan.player.HumanPlayer;
+import com.samhan.player.Player;
+import com.samhan.ui.ConsoleUi;
+import com.samhan.ui.Ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,14 +17,17 @@ import java.io.InputStreamReader;
  */
 public class ConsoleGame {
 
-    private int[] validInputMoves = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
     private static final String lineSeperator = "-+-+-";
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
     private Ai ai;
+    private Player player;
+
     public ConsoleGame(Ai ai) {
         this.board = new Board();
         this.ai = ai;
+        Ui ui = new ConsoleUi(System.in, System.out);
+        this.player = new HumanPlayer(ui, Marker.O);
     }
 
     public void makeComputerMove() {
@@ -35,7 +42,7 @@ public class ConsoleGame {
 
     public void displayWelcomeMsg() {
         output("TTT console edition");
-        output("Player = x");
+        output("player = x");
         output("Computer = o");
     }
 
@@ -126,42 +133,9 @@ public class ConsoleGame {
     }
 
 
-
     public void choseMove() {
-        boolean validMove = false;
-        int i = 0;
-        while (!validMove) {
-            i = getValidMoveInput();
-            i--;
-            if (board.isPositionFree(i)) {
-                validMove = true;
-            } else {
-                output("Invalid move. Space already taken.");
-            }
-        }
+        int i = player.getMove(board);
         board = board.move(i, Marker.O);
-    }
-
-    private int getValidMoveInput() {
-        int input = 1;
-        boolean validInput = false;
-        while (!validInput) {
-            output("Enter Move: ");
-            try {
-                input = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                input = -1;
-            }
-            for (int i : validInputMoves) {
-                if (input == i) {
-                    validInput = true;
-                }
-            }
-            if (!validInput) {
-                output("Invalid input. (1-9)");
-            }
-        }
-        return input;
     }
 
 
@@ -178,7 +152,7 @@ public class ConsoleGame {
     }
 
     private void outputFormatedLine(String line) {
-        output(interSpaceWithChar(line.replace(Board.EMPTY_POSITION_MARKER, ' '), '|'));
+        output(interSpaceWithChar(line.replace(Marker.EMPTY.asChar(), ' '), '|'));
     }
 
     public void displayGameOver() {

@@ -9,10 +9,9 @@ import java.util.List;
  * @version $Revision$
  */
 public class Board {
-    public static final char EMPTY_POSITION_MARKER = '-';
     private static final int BOARD_DIMENSION = 3;
     private static final int BOARD_SIZE = BOARD_DIMENSION * BOARD_DIMENSION;
-    public static final String EMPTY_BOARD = repeat(EMPTY_POSITION_MARKER, BOARD_SIZE);
+    public static final String EMPTY_BOARD = repeat(Marker.EMPTY.asChar(), BOARD_SIZE);
 
     private static int[][] HORIZONTAL_WIN_PATTERNS = new int[][]{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
     private static int[][] VERTICAL_WIN_PATTERNS = new int[][]{{0, 3, 6}, {1, 4, 7}, {2, 5, 8}};
@@ -42,14 +41,14 @@ public class Board {
     }
 
     public boolean isPositionFree(final int position) {
-        return positions[position] == EMPTY_POSITION_MARKER;
+        return positions[position] == Marker.EMPTY.asChar();
     }
 
     public List<Integer> possibleMoves() {
         List<Integer> possibleMoves = new ArrayList<Integer>();
 
         for (int i = 0; i < positions.length; i++) {
-            if (positions[i] == EMPTY_POSITION_MARKER) {
+            if (positions[i] == Marker.EMPTY.asChar()) {
                 possibleMoves.add(i);
             }
         }

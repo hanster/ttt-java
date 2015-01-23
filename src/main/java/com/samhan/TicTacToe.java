@@ -1,7 +1,7 @@
 package com.samhan;
 
-import com.samhan.Ai.Ai;
-import com.samhan.Ai.MiniMaxAi;
+import com.samhan.ai.Ai;
+import com.samhan.ai.MiniMaxAi;
 
 /**
  * Launcher class to make calls to the game
