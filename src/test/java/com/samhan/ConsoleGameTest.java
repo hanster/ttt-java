@@ -1,5 +1,6 @@
 package com.samhan;
 
+import com.samhan.Ai.MiniMaxAi;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ConsoleGameTest {
 
@@ -32,7 +32,7 @@ public class ConsoleGameTest {
 
     @Test
     public void interspaceChar(){
-        ConsoleGame consoleGame = new ConsoleGame();
+        ConsoleGame consoleGame = new ConsoleGame(new MiniMaxAi());
         assertEquals(" | | ", consoleGame.interSpaceWithChar("   ", '|'));
     }
 

@@ -44,20 +44,6 @@ public class BoardTest {
     assertTrue(board.isPositionFree(8));
   }
 
-
-  @Test
-  public void bestMove(){
-    assertEquals( 1, new Board("o-o------").calcBestMove(Marker.X));
-    assertEquals( 0, new Board("-xx------").calcBestMove(Marker.X));
-    assertEquals( 1, new Board("o-o------").calcBestMove(Marker.O));
-    assertEquals( 0, new Board("-oo------").calcBestMove(Marker.X));
-    assertEquals( 8, new Board("" +
-            "xoo" +
-            "-x-" +
-            "---").calcBestMove(Marker.O));
-    assertEquals(-1, new Board("oxooxoxox").calcBestMove(Marker.O));
-  }
-
   @Test
   public void possibleMoves() {
     assertEquals(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8), new Board("---------").possibleMoves());

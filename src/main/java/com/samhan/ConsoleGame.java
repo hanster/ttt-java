@@ -1,5 +1,7 @@
 package com.samhan;
 
+import com.samhan.Ai.Ai;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,12 +17,14 @@ public class ConsoleGame {
     private static final String lineSeperator = "-+-+-";
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
-    public ConsoleGame() {
+    private Ai ai;
+    public ConsoleGame(Ai ai) {
         this.board = new Board();
+        this.ai = ai;
     }
 
     public void makeComputerMove() {
-        int bestMove = this.board.calcBestMove(Marker.X);
+        int bestMove = this.ai.nextMove(this.board, Marker.X);
         this.board = this.board.move(bestMove, Marker.X);
     }
 
