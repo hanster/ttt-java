@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 
 /**
  * Console user interface implementation for the tic tac toe board
+ * todo split console and game to seperate object
+ * todo spacing the output
  */
 public class ConsoleGame {
 

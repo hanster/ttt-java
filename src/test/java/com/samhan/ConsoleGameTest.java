@@ -31,13 +31,13 @@ public class ConsoleGameTest {
     }
 
     @Test
-    public void testInterspaceChar(){
+    public void interspaceChar(){
         ConsoleGame consoleGame = new ConsoleGame();
         assertEquals(" | | ", consoleGame.interSpaceWithChar("   ", '|'));
     }
 
     @Test
-    public void testXWinCase(){
+    public void xWinCase(){
         ConsoleGame consoleGame = new ConsoleGame();
 
         System.setIn(getNumberInput(1));
@@ -61,7 +61,7 @@ public class ConsoleGameTest {
     }
 
     @Test
-    public void testOWinCase(){
+    public void oWinCase(){
         ConsoleGame consoleGame = new ConsoleGame();
 
         System.setIn(getNumberInput(1));
@@ -87,7 +87,7 @@ public class ConsoleGameTest {
     }
 
     @Test
-    public void testDrawCase(){
+    public void drawCase(){
         ConsoleGame consoleGame = new ConsoleGame();
 
         System.setIn(getNumberInput(1));

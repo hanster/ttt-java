@@ -10,14 +10,14 @@ import static org.junit.Assert.*;
  */
 public class BoardTest {
   @Test
-  public void testNewBoard() {
+  public void newBoard() {
     final Board board = new Board();
     assertEquals("---------", board.toString());
     assertEquals(Board.X_TURN, board.getTurn());
   }
 
   @Test
-  public void testMoveOnce() {
+  public void moveOnce() {
     Board board = new Board().move(0);
     assertEquals("x--------", board.toString());
     assertEquals(Board.O_TURN, board.getTurn());
@@ -28,14 +28,14 @@ public class BoardTest {
   }
 
   @Test
-  public void testMoveTwice() {
+  public void moveTwice() {
     Board board = new Board().move(1).move(2);
     assertEquals("-xo------", board.toString());
     assertEquals(Board.X_TURN, board.getTurn());
   }
 
   @Test
-  public void testIsPositionFree() {
+  public void isPositionFree() {
     Board board = new Board("-x-ooo---");
 
     assertTrue(board.isPositionFree(0));
@@ -47,7 +47,7 @@ public class BoardTest {
   }
 
   @Test
-  public void testMinimax(){
+  public void minimax(){
     assertEquals( 100, new Board("xxx------", Board.X_TURN).minimax());
     assertEquals(-100, new Board("ooo------", Board.O_TURN).minimax());
     assertEquals(   0, new Board("xoxxoxoxo", Board.X_TURN).minimax());
@@ -58,7 +58,7 @@ public class BoardTest {
   }
 
   @Test
-  public void testBestMove(){
+  public void bestMove(){
     assertEquals( 1, new Board("o-o------", Board.X_TURN).calcBestMove());
     assertEquals( 0, new Board("-xx------", Board.X_TURN).calcBestMove());
     assertEquals( 1, new Board("o-o------", Board.O_TURN).calcBestMove());

@@ -2,6 +2,7 @@ package com.samhan;
 
 /**
  * Tic Tac Toe board logic
+ * todo split out the player and ai objects
  *
  * @version $Revision$
  */
@@ -44,6 +45,7 @@ public class Board {
         return positions[position] == '-';
     }
 
+    // todo duplication in minimax and calcBestMove
     public int minimax() {
         String pos = new String(positions);
         Integer[] posMoves = BoardChecker.possibleMoves(new String(positions));
@@ -57,7 +59,7 @@ public class Board {
         if (posMoves.length == 0) {
             return 0;
         }
-
+        //todo mm naming
         Integer mm = null;
         // for each possible move call minimax
         for (int idx : posMoves) {

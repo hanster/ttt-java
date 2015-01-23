@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Checks the board position state
+ * todo move back into board
  * @version $Revision$
  */
 public class BoardChecker {
