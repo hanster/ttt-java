@@ -6,5 +6,6 @@ import com.samhan.Board;
  * User interface
  */
 public interface Ui {
-    public int getValidInput(Board board);
+    public int getValidMoveInput(Board board);
+    public boolean doesUserWantToStartNewGame();
 }

@@ -1,4 +1,4 @@
-package com.samhan;
+package com.samhan.ui;
 
 /**
  * Exception for invalid move

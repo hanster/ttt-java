@@ -18,7 +18,7 @@ public class HumanPlayer implements Player{
 
     @Override
     public int getMove(Board board) {
-        return ui.getValidInput(board);
+        return ui.getValidMoveInput(board);
     }
 
     @Override

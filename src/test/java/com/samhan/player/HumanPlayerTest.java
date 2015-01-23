@@ -40,8 +40,13 @@ public class HumanPlayerTest {
     public class StubUi implements Ui {
 
         @Override
-        public int getValidInput(Board board) {
+        public int getValidMoveInput(Board board) {
             return 0;
+        }
+
+        @Override
+        public boolean doesUserWantToStartNewGame() {
+            return false;
         }
     }
 }

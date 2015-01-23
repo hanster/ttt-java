@@ -2,6 +2,8 @@ package com.samhan;
 
 import com.samhan.ai.Ai;
 import com.samhan.ai.MiniMaxAi;
+import com.samhan.ui.ConsoleUi;
+import com.samhan.ui.Ui;
 
 /**
  * Launcher class to make calls to the game
@@ -12,8 +14,9 @@ public class TicTacToe {
         ConsoleGame consoleGame = null;
         // select different types of AI?
         Ai ai = new MiniMaxAi();
+        Ui ui = new ConsoleUi(System.in, System.out);
         while (newGame) {
-            consoleGame = new ConsoleGame(ai);
+            consoleGame = new ConsoleGame(ai, ui);
             consoleGame.displayWelcomeMsg();
             consoleGame.displayBoardLegend();
             consoleGame.displayBoard();

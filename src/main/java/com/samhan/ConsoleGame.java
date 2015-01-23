@@ -1,14 +1,10 @@
 package com.samhan;
 
 import com.samhan.ai.Ai;
+import com.samhan.player.ComputerPlayer;
 import com.samhan.player.HumanPlayer;
 import com.samhan.player.Player;
-import com.samhan.ui.ConsoleUi;
 import com.samhan.ui.Ui;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Console user interface implementation for the tic tac toe board
@@ -20,19 +16,25 @@ public class ConsoleGame {
     private static final String lineSeperator = "-+-+-";
     private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
-    private Ai ai;
-    private Player player;
+    private Ui ui;
+    private Player humanPlayer;
+    private Player computerPlayer;
 
-    public ConsoleGame(Ai ai) {
+    public ConsoleGame(Ai ai, Ui ui) {
         this.board = new Board();
-        this.ai = ai;
-        Ui ui = new ConsoleUi(System.in, System.out);
-        this.player = new HumanPlayer(ui, Marker.O);
+        this.ui = ui;
+        this.humanPlayer = new HumanPlayer(ui, Marker.O);
+        this.computerPlayer = new ComputerPlayer(ai, Marker.X);
     }
 
     public void makeComputerMove() {
-        int bestMove = this.ai.nextMove(this.board, Marker.X);
-        this.board = this.board.move(bestMove, Marker.X);
+        int bestMove = computerPlayer.getMove(board);
+        this.board = this.board.move(bestMove, computerPlayer.getMarker());
+    }
+
+    public void choseMove() {
+        int i = humanPlayer.getMove(board);
+        board = board.move(i, humanPlayer.getMarker());
     }
 
     private void output(String string) {
@@ -56,50 +58,8 @@ public class ConsoleGame {
     }
 
     public boolean getNewGameInput() {
-        boolean newGame = false;
-        boolean inputValid;
-        do {
-            output("Start a new game? ");
-            String input = getUserInput();
-            if (isStringYesOrNo(input)) {
-                inputValid = true;
-                if (isStringYes(input)) {
-                    newGame = true;
-                } else if (isStringNo(input)) {
-                    newGame = false;
-                }
-            } else {
-                inputValid = false;
-                output("Invalid input ( yes or no)");
-            }
-        } while (!inputValid);
-
-        return newGame;
+        return ui.doesUserWantToStartNewGame();
     }
-
-    private boolean isStringYesOrNo(String str) {
-        return (isStringYes(str) || isStringNo(str));
-    }
-
-    private boolean isStringYes(String str) {
-        return (str.toLowerCase().equals("y") || str.toLowerCase().equals("yes"));
-    }
-
-    private boolean isStringNo(String str) {
-        return (str.toLowerCase().equals("n") || str.toLowerCase().equals("no"));
-    }
-
-    private String getUserInput() {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String input = "";
-        try {
-            input = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return input;
-    }
-
 
     public void displayResult() {
         if (board.hasWon(Marker.X)) {
@@ -117,7 +77,7 @@ public class ConsoleGame {
 
     public void displayBoardLegend() {
         output(legendLineSeperator);
-        outputBoard("123456789");
+        outputBoard("012345678");
         output(legendLineSeperator);
     }
 
@@ -132,11 +92,6 @@ public class ConsoleGame {
         outputFormatedLine(bottom);
     }
 
-
-    public void choseMove() {
-        int i = player.getMove(board);
-        board = board.move(i, Marker.O);
-    }
 
 
     public String interSpaceWithChar(String string, char interChar) {
