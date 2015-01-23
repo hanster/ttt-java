@@ -15,25 +15,21 @@ public class BoardTest {
   public void newBoard() {
     final Board board = new Board();
     assertEquals("---------", board.toString());
-    assertEquals(Board.X_TURN, board.getTurn());
   }
 
   @Test
   public void moveOnce() {
-    Board board = new Board().move(0);
+    Board board = new Board().move(0, Marker.X);
     assertEquals("x--------", board.toString());
-    assertEquals(Board.O_TURN, board.getTurn());
 
-    board = new Board().move(1);
+    board = new Board().move(1, Marker.X);
     assertEquals("-x-------", board.toString());
-    assertEquals(Board.O_TURN, board.getTurn());
   }
 
   @Test
   public void moveTwice() {
-    Board board = new Board().move(1).move(2);
+    Board board = new Board().move(1, Marker.X).move(2, Marker.O);
     assertEquals("-xo------", board.toString());
-    assertEquals(Board.X_TURN, board.getTurn());
   }
 
   @Test
@@ -48,28 +44,18 @@ public class BoardTest {
     assertTrue(board.isPositionFree(8));
   }
 
-  @Test
-  public void minimax(){
-    assertEquals( 100, new Board("xxx------", Board.X_TURN).minimax());
-    assertEquals(-100, new Board("ooo------", Board.O_TURN).minimax());
-    assertEquals(   0, new Board("xoxxoxoxo", Board.X_TURN).minimax());
-    assertEquals(  99, new Board("-xx------", Board.X_TURN).minimax());
-    assertEquals( -99, new Board("-oo------", Board.O_TURN).minimax());
-    assertEquals( -96, new Board("-oo------", Board.X_TURN).minimax());
-    assertEquals(  96, new Board("-xx------", Board.O_TURN).minimax());
-  }
 
   @Test
   public void bestMove(){
-    assertEquals( 1, new Board("o-o------", Board.X_TURN).calcBestMove());
-    assertEquals( 0, new Board("-xx------", Board.X_TURN).calcBestMove());
-    assertEquals( 1, new Board("o-o------", Board.O_TURN).calcBestMove());
-    assertEquals( 0, new Board("-oo------", Board.X_TURN).calcBestMove());
+    assertEquals( 1, new Board("o-o------").calcBestMove(Marker.X));
+    assertEquals( 0, new Board("-xx------").calcBestMove(Marker.X));
+    assertEquals( 1, new Board("o-o------").calcBestMove(Marker.O));
+    assertEquals( 0, new Board("-oo------").calcBestMove(Marker.X));
     assertEquals( 8, new Board("" +
             "xoo" +
             "-x-" +
-            "---", Board.O_TURN).calcBestMove());
-    assertEquals(-1, new Board("oxooxoxox", Board.O_TURN).calcBestMove());
+            "---").calcBestMove(Marker.O));
+    assertEquals(-1, new Board("oxooxoxox").calcBestMove(Marker.O));
   }
 
   @Test
@@ -82,20 +68,20 @@ public class BoardTest {
 
   @Test
   public void playerHasWonCases() {
-    assertTrue(new Board("xxx------").hasWon(Board.X_TURN));
-    assertTrue(new Board("ooo------").hasWon(Board.O_TURN));
-    assertTrue(new Board("---xxx---").hasWon(Board.X_TURN));
-    assertTrue(new Board("------xxx").hasWon(Board.X_TURN));
-    assertTrue(new Board("x---x---x").hasWon(Board.X_TURN));
-    assertTrue(new Board("--x-x-x--").hasWon(Board.X_TURN));
+    assertTrue(new Board("xxx------").hasWon(Marker.X));
+    assertTrue(new Board("ooo------").hasWon(Marker.O));
+    assertTrue(new Board("---xxx---").hasWon(Marker.X));
+    assertTrue(new Board("------xxx").hasWon(Marker.X));
+    assertTrue(new Board("x---x---x").hasWon(Marker.X));
+    assertTrue(new Board("--x-x-x--").hasWon(Marker.X));
   }
   
   @Test
   public void playerHasNotWonCases(){
-    assertFalse(new Board("---------").hasWon(Board.X_TURN));
-    assertFalse(new Board("---------").hasWon(Board.O_TURN));
-    assertFalse(new Board("xxx------").hasWon(Board.O_TURN));
-    assertFalse(new Board("ooo------").hasWon(Board.X_TURN));
+    assertFalse(new Board("---------").hasWon(Marker.X));
+    assertFalse(new Board("---------").hasWon(Marker.O));
+    assertFalse(new Board("xxx------").hasWon(Marker.O));
+    assertFalse(new Board("ooo------").hasWon(Marker.X));
   }
 
   @Test

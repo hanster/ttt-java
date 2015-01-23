@@ -20,8 +20,8 @@ public class ConsoleGame {
     }
 
     public void makeComputerMove() {
-        int bestMove = this.board.calcBestMove();
-        this.board = this.board.move(bestMove);
+        int bestMove = this.board.calcBestMove(Marker.X);
+        this.board = this.board.move(bestMove, Marker.X);
     }
 
     private void output(String string) {
@@ -91,10 +91,10 @@ public class ConsoleGame {
 
 
     public void displayResult() {
-        if (board.hasWon(Board.X_TURN)) {
-            output(Board.X_TURN +" wins");
-        } else if (board.hasWon(Board.O_TURN)) {
-            output(Board.O_TURN +" wins");
+        if (board.hasWon(Marker.X)) {
+            output(Marker.X.asChar() +" wins");
+        } else if (board.hasWon(Marker.O)) {
+            output(Marker.O.asChar() +" wins");
         } else {
             output("draw");
         }
@@ -135,7 +135,7 @@ public class ConsoleGame {
                 output("Invalid move. Space already taken.");
             }
         }
-        board = board.move(i);
+        board = board.move(i, Marker.O);
     }
 
     private int getValidMoveInput() {

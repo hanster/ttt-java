@@ -1,9 +1,9 @@
 package com.samhan;
 
 /**
- * Launcher class to make calls the game
+ * Launcher class to make calls to the game
  */
-public class Launcher {
+public class TicTacToe {
     public static void main(String args[]) {
         boolean newGame = true;
         ConsoleGame consoleGame = null;
@@ -15,6 +15,7 @@ public class Launcher {
             while (!consoleGame.hasGameEnded()) {
                 consoleGame.choseMove();
                 if (consoleGame.hasGameEnded()) {
+                    consoleGame.displayBoard();
                     break;
                 }
                 consoleGame.makeComputerMove();

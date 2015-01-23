@@ -1,5 +1,7 @@
 package com.samhan;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,10 @@ import java.util.List;
  * @version $Revision$
  */
 public class Board {
+    public static final char EMPTY_POSITION_MARKER = '-';
+    private static final int BOARD_DIMENSION = 3;
+    private static final int BOARD_SIZE = BOARD_DIMENSION * BOARD_DIMENSION;
+    public static final String EMPTY_BOARD = StringUtils.repeat(EMPTY_POSITION_MARKER, BOARD_SIZE);
     private static int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
             {3, 4, 5},
             {6, 7, 8},
@@ -18,77 +24,65 @@ public class Board {
             {2, 5, 8},
             {0, 4, 8}, // diagonals
             {2, 4, 6}};
-    public static final char X_TURN = 'x';
-    public static final char O_TURN = 'o';
+
     private char[] positions;
-    private char turn;
 
     public Board() {
-        this("---------", X_TURN);
+        this(EMPTY_BOARD);
     }
 
     public Board(final String positions) {
-        this(positions, X_TURN);
-    }
-
-    public Board(final String positions, final char turn) {
         this.positions = positions.toCharArray();
-        this.turn = turn;
     }
 
     public String toString() {
         return new String(positions);
     }
 
-    public char getTurn() {
-        return turn;
-    }
-
-    public Board move(final int position) {
+    public Board move(final int position, Marker marker) {
         char[] newPositions = positions.clone();
-        newPositions[position] = turn;
+        newPositions[position] = marker.asChar();
 
-        return new Board(new String(newPositions), (turn == X_TURN ? O_TURN : X_TURN));
+        return new Board(new String(newPositions));
     }
-
 
     public boolean isPositionFree(final int position) {
         return positions[position] == '-';
     }
 
     // todo duplication in minimax and calcBestMove
-    public int minimax() {
+    private int minimax(Marker marker) {
         List<Integer> posMoves = possibleMoves();
 
-        if (hasWon(X_TURN)) {
+        if (hasWon(Marker.X)) {
             return 100;
         }
-        if (hasWon(O_TURN)) {
+        if (hasWon(Marker.O)) {
             return -100;
         }
         if (posMoves.size() == 0) {
             return 0;
         }
-        //todo mm naming
-        Integer mm = null;
+        //todo miniMaxValue naming
+        Integer miniMaxValue = null;
         // for each possible move call minimax
         for (int idx : posMoves) {
-            Integer value = move(idx).minimax();
+            Integer value = move(idx, marker).minimax((marker == Marker.X ? Marker.O : Marker.X));
             // check if the value is a new mini or max value
-            if (mm == null || turn == X_TURN && mm < value || turn == O_TURN && value < mm) {
-                mm = value;
+            if (miniMaxValue == null || marker == Marker.X && miniMaxValue < value || marker == Marker.O && value < miniMaxValue) {
+                miniMaxValue = value;
             }
         }
         // need to account for depth
-        return mm + (mm > 0 ? -1 : 1);
+        return miniMaxValue + (miniMaxValue > 0 ? -1 : 1);
     }
 
-    public int calcBestMove() {
+    public int calcBestMove(Marker marker) {
         Integer mm = null;
         int best = -1;
         for (Integer idx : possibleMoves()) {
-            Integer value = move(idx).minimax();
-            if (mm == null || turn == X_TURN && mm < value || turn == O_TURN && value < mm) {
+            Integer value = move(idx, marker).minimax((marker == Marker.X ? Marker.O : Marker.X));
+            if (mm == null || marker == Marker.X && mm < value || marker == Marker.O && value < mm) {
                 mm = value;
                 best = idx;
             }
@@ -100,14 +94,14 @@ public class Board {
         List<Integer> possibleMoves = new ArrayList<Integer>();
 
         for (int i = 0; i < positions.length; i++) {
-            if (positions[i] == '-') {
+            if (positions[i] == EMPTY_POSITION_MARKER) {
                 possibleMoves.add(i);
             }
         }
         return possibleMoves;
     }
 
-    public boolean hasWon(final char turn) {
+    public boolean hasWon(final Marker turn) {
         for (int[] ints : winPatterns) {
             if (allPositionsMatchTurn(positions, ints, turn)) {
                 return true;
@@ -117,10 +111,10 @@ public class Board {
     }
 
 
-    private boolean allPositionsMatchTurn(char[] boardPositions, int[] positionsToMatch, char turnToMatch) {
+    private boolean allPositionsMatchTurn(char[] boardPositions, int[] positionsToMatch, Marker turnToMatch) {
         boolean allMatchFlag = true;
         for (int i : positionsToMatch) {
-            if (boardPositions[i] != turnToMatch) {
+            if (boardPositions[i] != turnToMatch.asChar()) {
                 allMatchFlag = false;
                 break;
             }
@@ -129,6 +123,6 @@ public class Board {
     }
 
     public boolean hasEnded() {
-        return hasWon(Board.X_TURN) || hasWon(Board.O_TURN) || possibleMoves().size() == 0;
+        return hasWon(Marker.X) || hasWon(Marker.O) || possibleMoves().size() == 0;
     }
 }
