@@ -41,7 +41,7 @@ public class ConsoleGame {
     }
 
     public boolean hasGameEnded() {
-        return BoardChecker.hasEnded(board.toString());
+        return board.hasEnded();
     }
 
     public boolean getNewGameInput() {
@@ -91,9 +91,9 @@ public class ConsoleGame {
 
 
     public void displayResult() {
-        if (BoardChecker.hasWon(board.toString(), Board.X_TURN)) {
+        if (board.hasWon(Board.X_TURN)) {
             output(Board.X_TURN +" wins");
-        } else if (BoardChecker.hasWon(board.toString(), Board.O_TURN)) {
+        } else if (board.hasWon(Board.O_TURN)) {
             output(Board.O_TURN +" wins");
         } else {
             output("draw");

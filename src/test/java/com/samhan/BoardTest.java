@@ -2,6 +2,8 @@ package com.samhan;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 /**
@@ -68,6 +70,42 @@ public class BoardTest {
             "-x-" +
             "---", Board.O_TURN).calcBestMove());
     assertEquals(-1, new Board("oxooxoxox", Board.O_TURN).calcBestMove());
+  }
+
+  @Test
+  public void possibleMoves() {
+    assertEquals(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8), new Board("---------").possibleMoves());
+    assertEquals(Arrays.asList(3, 4, 5, 6, 7, 8), new Board("xxx------").possibleMoves());
+    assertEquals(Arrays.asList(0, 1, 5, 6, 7), new Board("--xxx---x").possibleMoves());
+    assertEquals(Arrays.asList(), new Board("xxxoooxxx").possibleMoves());
+  }
+
+  @Test
+  public void playerHasWonCases() {
+    assertTrue(new Board("xxx------").hasWon(Board.X_TURN));
+    assertTrue(new Board("ooo------").hasWon(Board.O_TURN));
+    assertTrue(new Board("---xxx---").hasWon(Board.X_TURN));
+    assertTrue(new Board("------xxx").hasWon(Board.X_TURN));
+    assertTrue(new Board("x---x---x").hasWon(Board.X_TURN));
+    assertTrue(new Board("--x-x-x--").hasWon(Board.X_TURN));
+  }
+  
+  @Test
+  public void playerHasNotWonCases(){
+    assertFalse(new Board("---------").hasWon(Board.X_TURN));
+    assertFalse(new Board("---------").hasWon(Board.O_TURN));
+    assertFalse(new Board("xxx------").hasWon(Board.O_TURN));
+    assertFalse(new Board("ooo------").hasWon(Board.X_TURN));
+  }
+
+  @Test
+  public void boardStateEnded(){
+    assertFalse(new Board("---------").hasEnded());
+    assertFalse(new Board("-x---o---").hasEnded());
+
+    assertTrue(new Board("xxx------").hasEnded());
+    assertTrue(new Board("ooo------").hasEnded());
+    assertTrue(new Board("xoxxoxoxo").hasEnded());
   }
 
 }
