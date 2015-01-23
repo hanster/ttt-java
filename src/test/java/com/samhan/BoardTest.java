@@ -7,8 +7,7 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 /**
- * todo (hansa): Document Me
- * @version $Revision$
+ * Board tests
  */
 public class BoardTest {
   @Test

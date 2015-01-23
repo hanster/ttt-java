@@ -5,7 +5,6 @@ import java.util.List;
 
 /**
  * Tic Tac Toe board logic
- * todo split out the player and ai objects
  *
  * @version $Revision$
  */
@@ -14,14 +13,12 @@ public class Board {
     private static final int BOARD_DIMENSION = 3;
     private static final int BOARD_SIZE = BOARD_DIMENSION * BOARD_DIMENSION;
     public static final String EMPTY_BOARD = repeat(EMPTY_POSITION_MARKER, BOARD_SIZE);
-    private static int[][] winPatterns = new int[][]{{0, 1, 2}, // horizontals
-            {3, 4, 5},
-            {6, 7, 8},
-            {0, 3, 6}, // verticals
-            {1, 4, 7},
-            {2, 5, 8},
-            {0, 4, 8}, // diagonals
-            {2, 4, 6}};
+
+    private static int[][] HORIZONTAL_WIN_PATTERNS = new int[][]{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+    private static int[][] VERTICAL_WIN_PATTERNS = new int[][]{{0, 3, 6}, {1, 4, 7}, {2, 5, 8}};
+    private static int[][] DIAGONAL_WIN_PATTERNS = new int[][]{{0, 4, 8}, {2, 4, 6}};
+    private static int[][][] ALL_TYPES_OF_WINNING_PATTERNS = new int[][][]{HORIZONTAL_WIN_PATTERNS, VERTICAL_WIN_PATTERNS, DIAGONAL_WIN_PATTERNS};
+
 
     private char[] positions;
 
@@ -45,7 +42,7 @@ public class Board {
     }
 
     public boolean isPositionFree(final int position) {
-        return positions[position] == '-';
+        return positions[position] == EMPTY_POSITION_MARKER;
     }
 
     public List<Integer> possibleMoves() {
@@ -60,19 +57,27 @@ public class Board {
     }
 
     public boolean hasWon(final Marker turn) {
-        for (int[] ints : winPatterns) {
-            if (allPositionsMatchTurn(positions, ints, turn)) {
+        for (int [][] typeOfWinningPatterns : ALL_TYPES_OF_WINNING_PATTERNS) {
+            if (anyMatchesToWinningPatterns(typeOfWinningPatterns, turn)) {
                 return true;
             }
         }
         return false;
     }
 
+    private boolean anyMatchesToWinningPatterns(int[][] typeOfWinningPatterns, Marker turn) {
+        for (int[] winPattern : typeOfWinningPatterns) {
+            if (allPositionsMatchWinningPattern(winPattern, turn)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    private boolean allPositionsMatchTurn(char[] boardPositions, int[] positionsToMatch, Marker turnToMatch) {
+    private boolean allPositionsMatchWinningPattern(int[] positionsToMatch, Marker turnToMatch) {
         boolean allMatchFlag = true;
         for (int i : positionsToMatch) {
-            if (boardPositions[i] != turnToMatch.asChar()) {
+            if (positions[i] != turnToMatch.asChar()) {
                 allMatchFlag = false;
                 break;
             }

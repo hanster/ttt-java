@@ -178,7 +178,7 @@ public class ConsoleGame {
     }
 
     private void outputFormatedLine(String line) {
-        output(interSpaceWithChar(line.replace('-', ' '), '|'));
+        output(interSpaceWithChar(line.replace(Board.EMPTY_POSITION_MARKER, ' '), '|'));
     }
 
     public void displayGameOver() {
