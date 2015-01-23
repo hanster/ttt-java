@@ -1,4 +1,4 @@
-package com.samhan.Ai;
+package com.samhan.ai;
 
 import com.samhan.Board;
 import com.samhan.Marker;
