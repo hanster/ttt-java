@@ -18,7 +18,6 @@ public class TicTacToe {
         while (newGame) {
             consoleGame = new ConsoleGame(ai, ui);
             consoleGame.displayWelcomeMsg();
-            consoleGame.displayBoardLegend();
             consoleGame.displayBoard();
             while (!consoleGame.hasGameEnded()) {
                 consoleGame.choseMove();

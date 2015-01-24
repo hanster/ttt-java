@@ -13,8 +13,6 @@ import com.samhan.ui.Ui;
  */
 public class ConsoleGame {
 
-    private static final String lineSeperator = "-+-+-";
-    private static final String legendLineSeperator = "=====Legend=====";
     private Board board;
     private Ui ui;
     private Player humanPlayer;
@@ -72,42 +70,7 @@ public class ConsoleGame {
     }
 
     public void displayBoard() {
-        outputBoard(this.board.toString());
-    }
-
-    public void displayBoardLegend() {
-        output(legendLineSeperator);
-        outputBoard("012345678");
-        output(legendLineSeperator);
-    }
-
-    private void outputBoard(String boardString) {
-        String top = boardString.substring(0, 3);
-        String middle = boardString.substring(3, 6);
-        String bottom = boardString.substring(6, 9);
-        outputFormatedLine(top);
-        output(lineSeperator);
-        outputFormatedLine(middle);
-        output(lineSeperator);
-        outputFormatedLine(bottom);
-    }
-
-
-
-    public String interSpaceWithChar(String string, char interChar) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < string.length(); i++) {
-            sb.append(string.charAt(i));
-            if (i != string.length() - 1) {
-                sb.append(interChar);
-            }
-        }
-        return sb.toString();
-    }
-
-    private void outputFormatedLine(String line) {
-        output(interSpaceWithChar(line.replace(Marker.EMPTY.asChar(), ' '), '|'));
+        ui.drawBoard(board);
     }
 
     public void displayGameOver() {

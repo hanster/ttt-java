@@ -9,4 +9,4 @@
 ### Build and Run ###
 #### Maven ####
     mvn package
-    java -jar target/ttt-1.0-SNAPSHOT.jar
+    java -jar target/ttt-1.0-SNAPSHOT-jar-with-dependencies.jar

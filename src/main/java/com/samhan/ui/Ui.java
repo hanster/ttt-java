@@ -8,4 +8,5 @@ import com.samhan.Board;
 public interface Ui {
     public int getValidMoveInput(Board board);
     public boolean doesUserWantToStartNewGame();
+    public void drawBoard(Board board);
 }

@@ -120,6 +120,16 @@ public class ConsoleUiTest {
         setUpQueuedConsoleInput(new String [] {"asdf", "y"});
         assertEquals(true, consoleUi.doesUserWantToStartNewGame());
         assertEquals("Start a new game?\nInvalid input ( yes or no).\nStart a new game?\n", output.toString());
+    }
 
+    @Test
+    public void drawBoardOutput(){
+        setUpQueuedConsoleInput(new String[]{});
+        consoleUi.drawBoard(new Board());
+        assertEquals("  0  |  1  |  2  \n" +
+                "-----+-----+-----\n" +
+                "  3  |  4  |  5  \n" +
+                "-----+-----+-----\n" +
+                "  6  |  7  |  8  \n", output.toString());
     }
 }

@@ -48,5 +48,10 @@ public class HumanPlayerTest {
         public boolean doesUserWantToStartNewGame() {
             return false;
         }
+
+        @Override
+        public void drawBoard(Board board) {
+
+        }
     }
 }

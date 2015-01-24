@@ -1,7 +1,12 @@
 package com.samhan;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tic Tac Toe board logic
@@ -11,13 +16,19 @@ import java.util.List;
 public class Board {
     private static final int BOARD_DIMENSION = 3;
     private static final int BOARD_SIZE = BOARD_DIMENSION * BOARD_DIMENSION;
-    public static final String EMPTY_BOARD = repeat(Marker.EMPTY.asChar(), BOARD_SIZE);
+    public static final String EMPTY_BOARD = StringUtils.repeat(Marker.EMPTY.asChar(), BOARD_SIZE);
 
     private static int[][] HORIZONTAL_WIN_PATTERNS = new int[][]{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
     private static int[][] VERTICAL_WIN_PATTERNS = new int[][]{{0, 3, 6}, {1, 4, 7}, {2, 5, 8}};
     private static int[][] DIAGONAL_WIN_PATTERNS = new int[][]{{0, 4, 8}, {2, 4, 6}};
     private static int[][][] ALL_TYPES_OF_WINNING_PATTERNS = new int[][][]{HORIZONTAL_WIN_PATTERNS, VERTICAL_WIN_PATTERNS, DIAGONAL_WIN_PATTERNS};
 
+
+    public static final String BOARD_TEMPLATE = "  ${0}  |  ${1}  |  ${2}  \n" +
+            "-----+-----+-----\n" +
+            "  ${3}  |  ${4}  |  ${5}  \n" +
+            "-----+-----+-----\n" +
+            "  ${6}  |  ${7}  |  ${8}  \n";
 
     private char[] positions;
 
@@ -88,17 +99,20 @@ public class Board {
         return hasWon(Marker.X) || hasWon(Marker.O) || possibleMoves().size() == 0;
     }
 
-    /**
-     * taken from org.apache.commons.lang3.StringUtils#repeat so we don't have to include the whole library
-     *
-     */
-    private static String repeat(char ch, int repeat) {
-        char[] buf = new char[repeat];
-
-        for(int i = repeat - 1; i >= 0; --i) {
-            buf[i] = ch;
+    public String getLayout() {
+        Map<String, String> valuesMap = new HashMap<String, String>();
+        for (int i = 0; i < positions.length; i++){
+            valuesMap.put(Integer.toString(i), getPositionRepresenation(i) );
         }
 
-        return new String(buf);
+        StrSubstitutor sub = new StrSubstitutor(valuesMap);
+        return sub.replace(BOARD_TEMPLATE);
+    }
+
+    private String getPositionRepresenation(int index){
+        if(isPositionFree(index)) {
+            return Integer.toString(index);
+        }
+        return String.valueOf(positions[index]);
     }
 }

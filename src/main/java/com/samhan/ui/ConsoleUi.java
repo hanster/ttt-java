@@ -64,6 +64,11 @@ public class ConsoleUi implements Ui {
         }
     }
 
+    @Override
+    public void drawBoard(Board board) {
+        output.print(board.getLayout());
+    }
+
     private boolean isStringYesOrNo(String str) {
         return (isStringYes(str) || isStringNo(str));
     }
@@ -87,5 +92,4 @@ public class ConsoleUi implements Ui {
         }
         return input;
     }
-
 }

@@ -86,4 +86,21 @@ public class BoardTest {
     assertTrue(new Board("xoxxoxoxo").hasEnded());
   }
 
+  @Test
+  public void boardLayout(){
+    assertEquals("  0  |  1  |  2  \n" +
+            "-----+-----+-----\n" +
+            "  3  |  4  |  5  \n" +
+            "-----+-----+-----\n" +
+            "  6  |  7  |  8  \n", new Board().getLayout());
+
+    assertEquals("  0  |  1  |  2  \n" +
+            "-----+-----+-----\n" +
+            "  x  |  x  |  x  \n" +
+            "-----+-----+-----\n" +
+            "  6  |  7  |  8  \n", new Board("---xxx---").getLayout());
+
+
+  }
+
 }
