@@ -132,4 +132,11 @@ public class ConsoleUiTest {
                 "-----+-----+-----\n" +
                 "  6  |  7  |  8  \n", output.toString());
     }
+
+    @Test
+    public void displayMessageOutput() {
+        setUpQueuedConsoleInput(new String[]{});
+        consoleUi.displayMessage("hello world");
+        assertEquals("\nhello world\n", output.toString());
+    }
 }

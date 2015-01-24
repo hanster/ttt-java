@@ -2,6 +2,9 @@ package com.samhan;
 
 import com.samhan.ai.Ai;
 import com.samhan.ai.MiniMaxAi;
+import com.samhan.player.ComputerPlayer;
+import com.samhan.player.HumanPlayer;
+import com.samhan.player.Player;
 import com.samhan.ui.ConsoleUi;
 import com.samhan.ui.Ui;
 
@@ -15,22 +18,22 @@ public class TicTacToe {
         // select different types of AI?
         Ai ai = new MiniMaxAi();
         Ui ui = new ConsoleUi(System.in, System.out);
+        Player playerOne = new HumanPlayer(ui, Marker.X);
+        Player playerTwo = new ComputerPlayer(ai, Marker.O);
+
         while (newGame) {
-            consoleGame = new ConsoleGame(ai, ui);
-            consoleGame.displayWelcomeMsg();
-            consoleGame.displayBoard();
+            consoleGame = new ConsoleGame(playerOne, playerTwo, ui);
+            consoleGame.draw();
             while (!consoleGame.hasGameEnded()) {
-                consoleGame.choseMove();
+                consoleGame.attemptNextMove();
                 if (consoleGame.hasGameEnded()) {
-                    consoleGame.displayBoard();
                     break;
                 }
-                consoleGame.makeComputerMove();
-                consoleGame.displayBoard();
+                consoleGame.draw();
             }
+            consoleGame.setEndGameMessage();
+            consoleGame.draw();
 
-            consoleGame.displayGameOver();
-            consoleGame.displayResult();
             newGame = consoleGame.getNewGameInput();
         }
         consoleGame.displayGoodbyeMsg();

@@ -1,8 +1,5 @@
 package com.samhan;
 
-import com.samhan.ai.Ai;
-import com.samhan.player.ComputerPlayer;
-import com.samhan.player.HumanPlayer;
 import com.samhan.player.Player;
 import com.samhan.ui.Ui;
 
@@ -13,41 +10,29 @@ import com.samhan.ui.Ui;
  */
 public class ConsoleGame {
 
+    private static final String TOP_MESSAGE = "Tic Tac Toe\n\n Player = x\n Computer = o\n\n";
+
+    public static final int NUMBER_OF_PLAYERS = 2;
     private Board board;
     private Ui ui;
-    private Player humanPlayer;
-    private Player computerPlayer;
 
-    public ConsoleGame(Ai ai, Ui ui) {
+    private Player[] players;
+    private int currentPlayerIndex = 0;
+    private Player currentPlayer;
+
+    private String bottomMessage = "";
+
+    public ConsoleGame(Player player1, Player player2, Ui ui) {
         this.board = new Board();
         this.ui = ui;
-        this.humanPlayer = new HumanPlayer(ui, Marker.O);
-        this.computerPlayer = new ComputerPlayer(ai, Marker.X);
-    }
-
-    public void makeComputerMove() {
-        int bestMove = computerPlayer.getMove(board);
-        this.board = this.board.move(bestMove, computerPlayer.getMarker());
-    }
-
-    public void choseMove() {
-        int i = humanPlayer.getMove(board);
-        board = board.move(i, humanPlayer.getMarker());
-    }
-
-    private void output(String string) {
-        System.out.println(string);
-    }
-
-
-    public void displayWelcomeMsg() {
-        output("TTT console edition");
-        output("player = x");
-        output("Computer = o");
+        players = new Player[2];
+        players[0] = player1;
+        players[1] = player2;
+        currentPlayer = players[currentPlayerIndex];
     }
 
     public void displayGoodbyeMsg() {
-        output("Thanks for playing.");
+        ui.displayMessage("Thanks for playing.");
 
     }
 
@@ -59,22 +44,42 @@ public class ConsoleGame {
         return ui.doesUserWantToStartNewGame();
     }
 
-    public void displayResult() {
+    private String getResultText() {
+        String message;
+
         if (board.hasWon(Marker.X)) {
-            output(Marker.X.asChar() +" wins");
+            message = Marker.X.asChar() +" wins";
         } else if (board.hasWon(Marker.O)) {
-            output(Marker.O.asChar() +" wins");
+            message = Marker.O.asChar() + " wins";
         } else {
-            output("draw");
+            message = "draw";
         }
+        return message;
     }
 
-    public void displayBoard() {
+    public void draw() {
+        ui.clearDisplay();
+        ui.displayMessage(TOP_MESSAGE);
         ui.drawBoard(board);
+        ui.displayMessage(bottomMessage);
     }
 
-    public void displayGameOver() {
-        output("Game Over");
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
+    public void attemptNextMove() {
+        int movePosition = currentPlayer.getMove(board);
+        this.board = this.board.move(movePosition, currentPlayer.getMarker());
+        cycleCurrentPlayerToNextPlayer();
+    }
+
+    private void cycleCurrentPlayerToNextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % NUMBER_OF_PLAYERS;
+        currentPlayer = players[currentPlayerIndex];
+    }
+
+    public void setEndGameMessage() {
+        bottomMessage = "Game Over\n\n" +getResultText() + "\n\n";
+    }
 }

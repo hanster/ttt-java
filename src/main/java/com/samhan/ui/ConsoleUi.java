@@ -69,6 +69,20 @@ public class ConsoleUi implements Ui {
         output.print(board.getLayout());
     }
 
+    final private String ANSI_CLS = "\u001b[2J";
+    final private String ANSI_HOME = "\u001b[H";
+
+    @Override
+    public void clearDisplay() {
+        output.print(ANSI_CLS + ANSI_HOME);
+        output.flush();
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        output.print("\n" + message + "\n");
+    }
+
     private boolean isStringYesOrNo(String str) {
         return (isStringYes(str) || isStringNo(str));
     }

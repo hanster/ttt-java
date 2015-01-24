@@ -2,7 +2,7 @@ package com.samhan.player;
 
 import com.samhan.Board;
 import com.samhan.Marker;
-import com.samhan.ui.Ui;
+import com.samhan.StubUi;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,24 +34,5 @@ public class HumanPlayerTest {
     @Test
     public void uiNextMoveCalledCorrectly(){
         assertEquals(0, player.getMove(new Board()));
-    }
-
-
-    public class StubUi implements Ui {
-
-        @Override
-        public int getValidMoveInput(Board board) {
-            return 0;
-        }
-
-        @Override
-        public boolean doesUserWantToStartNewGame() {
-            return false;
-        }
-
-        @Override
-        public void drawBoard(Board board) {
-
-        }
     }
 }
