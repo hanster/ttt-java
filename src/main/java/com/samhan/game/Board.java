@@ -1,4 +1,4 @@
-package com.samhan;
+package com.samhan.game;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;

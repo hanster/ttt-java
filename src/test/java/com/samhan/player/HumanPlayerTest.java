@@ -1,10 +1,13 @@
 package com.samhan.player;
 
-import com.samhan.Board;
-import com.samhan.Marker;
-import com.samhan.StubUi;
+import com.samhan.game.Board;
+import com.samhan.game.Marker;
+import com.samhan.ui.StubUi;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,8 +19,10 @@ public class HumanPlayerTest {
 
     @Before
     @Test
-    public void setUp(){
-        player = new HumanPlayer(new StubUi(), Marker.O);
+    public void setUp() {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(0);
+        player = new HumanPlayer(new StubUi(queue), Marker.O);
     }
 
 

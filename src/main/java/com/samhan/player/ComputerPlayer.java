@@ -1,8 +1,8 @@
 package com.samhan.player;
 
-import com.samhan.Board;
-import com.samhan.Marker;
 import com.samhan.ai.Ai;
+import com.samhan.game.Board;
+import com.samhan.game.Marker;
 
 /**
  * Computer player implementation

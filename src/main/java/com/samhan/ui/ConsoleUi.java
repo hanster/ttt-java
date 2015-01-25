@@ -1,6 +1,6 @@
 package com.samhan.ui;
 
-import com.samhan.Board;
+import com.samhan.game.Board;
 
 import java.io.*;
 
@@ -12,8 +12,6 @@ public class ConsoleUi implements Ui {
     public static final String MOVE_ALREADY_TAKEN = "Move already taken.\n";
     public static final String INVALID_YES_NO = "Invalid input ( yes or no).\n";
 
-
-    public static final String ENTER_MOVE_PROMPT = "Enter move:\n";
     public static final String NEW_GAME_PROMPT = "Start a new game?\n";
 
     private BufferedReader bufferedReader;
@@ -26,41 +24,33 @@ public class ConsoleUi implements Ui {
     }
 
     @Override
-    public int getValidMoveInput(Board board) {
-        String errorMessage = "";
-        while (true) {
-            try {
-                output.print(errorMessage + ENTER_MOVE_PROMPT);
-                int input = tryToGetValidIntegerInput();
-                if (!board.isPositionFree(input)) {
-                    throw new InvalidMoveException();
-                }
-                return input;
-            } catch (IOException e) {
-                // loop again to try and get another input
-            } catch (NumberFormatException e) {
-                errorMessage = INVALID_NUMBER_ENTRY_0_8;
-            } catch (InvalidMoveException e) {
-                errorMessage = MOVE_ALREADY_TAKEN;
-            } catch (ArrayIndexOutOfBoundsException e) {
-                errorMessage = INVALID_NUMBER_ENTRY_0_8;
+    public int getValidMoveInput(Board board) throws InvalidInputEntryException {
+        try {
+            int input = tryToGetValidIntegerInput();
+            if (!board.isPositionFree(input)) {
+                throw new InvalidInputEntryException(MOVE_ALREADY_TAKEN);
             }
+            return input;
+        } catch (IOException e) {
+            throw new InvalidInputEntryException(e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new InvalidInputEntryException(INVALID_NUMBER_ENTRY_0_8);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputEntryException(INVALID_NUMBER_ENTRY_0_8);
         }
     }
 
     @Override
-    public boolean doesUserWantToStartNewGame() {
+    public boolean doesUserWantToStartNewGame() throws InvalidInputEntryException{
         String errorMessage = "";
-        while (true) {
-            try {
-                output.print(errorMessage + NEW_GAME_PROMPT);
-                String input = tryToGetValidYesOrNoInput();
-                return (isStringYes(input));
-            } catch (IOException e) {
-                // loop again to try and get another input
-            } catch (InvalidNewGameInputException e) {
-                errorMessage = INVALID_YES_NO;
-            }
+        try {
+            output.print(errorMessage + NEW_GAME_PROMPT);
+            String input = tryToGetValidYesOrNoInput();
+            return (isStringYes(input));
+        } catch (IOException e) {
+            throw new InvalidInputEntryException(INVALID_YES_NO);
+        } catch (InvalidNewGameInputException e) {
+            throw new InvalidInputEntryException(INVALID_YES_NO);
         }
     }
 

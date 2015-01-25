@@ -1,4 +1,4 @@
-package com.samhan;
+package com.samhan.game;
 
 /**
  * Different markers for the TicTacToe game

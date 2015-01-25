@@ -1,7 +1,8 @@
 package com.samhan.player;
 
-import com.samhan.Board;
-import com.samhan.Marker;
+import com.samhan.game.Board;
+import com.samhan.game.Marker;
+import com.samhan.ui.InvalidInputEntryException;
 import com.samhan.ui.Ui;
 
 /**
@@ -17,7 +18,7 @@ public class HumanPlayer implements Player{
     }
 
     @Override
-    public int getMove(Board board) {
+    public int getMove(Board board) throws InvalidInputEntryException {
         return ui.getValidMoveInput(board);
     }
 
