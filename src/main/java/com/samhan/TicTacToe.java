@@ -12,7 +12,7 @@ import com.samhan.ui.ConsoleUi;
 import com.samhan.ui.Ui;
 
 /**
- * Launcher class to make calls to the game
+ * Main class to wire up the game and launch the game loop
  */
 public class TicTacToe {
     public static void main(String args[]) {

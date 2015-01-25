@@ -32,7 +32,7 @@ public class ConsoleGame implements Game{
     public ConsoleGame(Player player1, Player player2, Ui ui, Board board) {
         this.board = board;
         this.ui = ui;
-        players = new Player[2];
+        players = new Player[NUMBER_OF_PLAYERS];
         players[0] = player1;
         players[1] = player2;
         currentPlayer = players[currentPlayerIndex];

@@ -9,44 +9,65 @@ import java.util.List;
  * Minimax implementation to work out the best move.
  */
 public class MiniMaxAi implements Ai{
+    public class MiniMax {
+        public MiniMax() {
+            value = -1;
+            index = -1;
+        }
+        public int value;
+        public int index;
+    }
+
+    public static final int MAX_O_SCORE = -100;
+    public static final int MAX_X_SCORE = Math.abs(MAX_O_SCORE);
+    public static final int DRAW_SCORE = 0;
 
     private int minimax(Board board, Marker marker) {
-        List<Integer> posMoves = board.possibleMoves();
+        List<Integer> possibleMoves = board.possibleMoves();
 
         if (board.hasWon(Marker.X)) {
-            return 100;
+            return MAX_X_SCORE;
         }
         if (board.hasWon(Marker.O)) {
-            return -100;
+            return MAX_O_SCORE;
         }
-        if (posMoves.size() == 0) {
-            return 0;
+        if (possibleMoves.size() == 0) {
+            return DRAW_SCORE;
         }
-        Integer miniMaxValue = null;
-        // for each possible move call minimax
-        for (int idx : posMoves) {
-            Integer value = minimax(board.move(idx, marker), (marker == Marker.X ? Marker.O : Marker.X));
-            // check if the value is a new mini or max value
-            if (miniMaxValue == null || marker == Marker.X && miniMaxValue < value || marker == Marker.O && value < miniMaxValue) {
-                miniMaxValue = value;
-            }
-        }
-        // need to account for depth
-        return miniMaxValue + (miniMaxValue > 0 ? -1 : 1);
+
+        MiniMax miniMax = calcMiniMaxValue(board, marker);
+        return adjustMiniMaxValueForDepth(miniMax.value);
     }
 
     @Override
     public int nextMove(Board board, Marker marker) {
-        Integer miniMaxValue = null;
-        int best = -1;
-        for (Integer idx : board.possibleMoves()) {
-            Integer value = minimax(board.move(idx, marker), (marker == Marker.X ? Marker.O : Marker.X));
-            if (miniMaxValue == null || marker == Marker.X && miniMaxValue < value || marker == Marker.O && value < miniMaxValue) {
-                miniMaxValue = value;
-                best = idx;
+        MiniMax miniMax = calcMiniMaxValue(board, marker);
+        return miniMax.index;
+    }
+
+    private MiniMax calcMiniMaxValue(Board board, Marker marker) {
+
+        MiniMax miniMax = new MiniMax();
+        for (Integer boardIndex : board.possibleMoves()) {
+            Integer value = minimax(board.move(boardIndex, marker), switchMarker(marker));
+            if (miniMax.value == -1 || isNewMiniMaxValue(marker, miniMax.value, value)) {
+                miniMax.value = value;
+                miniMax.index = boardIndex;
             }
         }
-        return best;
+        return miniMax;
+    }
+
+    private boolean isNewMiniMaxValue(Marker marker, Integer miniMaxValue, Integer value) {
+        return marker == Marker.X && miniMaxValue < value || marker == Marker.O && value < miniMaxValue;
+    }
+
+    private Marker switchMarker(Marker marker) {
+        return (marker == Marker.X ? Marker.O : Marker.X);
+    }
+
+    private int adjustMiniMaxValueForDepth(Integer miniMaxValue) {
+        return miniMaxValue + (miniMaxValue > 0 ? -1 : 1);
     }
 
 }

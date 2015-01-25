@@ -24,7 +24,8 @@ public class Board {
     private static int[][][] ALL_TYPES_OF_WINNING_PATTERNS = new int[][][]{HORIZONTAL_WIN_PATTERNS, VERTICAL_WIN_PATTERNS, DIAGONAL_WIN_PATTERNS};
 
 
-    public static final String BOARD_TEMPLATE = "  ${0}  |  ${1}  |  ${2}  \n" +
+    public static final String BOARD_TEMPLATE =
+            "  ${0}  |  ${1}  |  ${2}  \n" +
             "-----+-----+-----\n" +
             "  ${3}  |  ${4}  |  ${5}  \n" +
             "-----+-----+-----\n" +
@@ -102,14 +103,14 @@ public class Board {
     public String getLayout() {
         Map<String, String> valuesMap = new HashMap<String, String>();
         for (int i = 0; i < positions.length; i++){
-            valuesMap.put(Integer.toString(i), getPositionRepresenation(i) );
+            valuesMap.put(Integer.toString(i), getPositionRepresentation(i) );
         }
 
         StrSubstitutor sub = new StrSubstitutor(valuesMap);
         return sub.replace(BOARD_TEMPLATE);
     }
 
-    private String getPositionRepresenation(int index){
+    private String getPositionRepresentation(int index){
         if(isPositionFree(index)) {
             return Integer.toString(index);
         }
