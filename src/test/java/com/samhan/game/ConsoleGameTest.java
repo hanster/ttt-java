@@ -81,7 +81,7 @@ public class ConsoleGameTest {
         assertEquals("Game Over\n" +
                 "\n" +
                 "x wins\n" +
-                "\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
+                "\n" + "Start a new game?\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ConsoleGameTest {
         assertEquals("Game Over\n" +
                 "\n" +
                 "o wins\n" +
-                "\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
+                "\n" + "Start a new game?\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ConsoleGameTest {
         assertEquals("Game Over\n" +
                 "\n" +
                 "draw\n" +
-                "\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
+                "\n" + "Start a new game?\n", stubUi.displayMessageParamHistory.get(lastIndexInList));
     }
 
     @Test

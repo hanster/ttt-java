@@ -11,7 +11,6 @@ public class ConsoleUi implements Ui {
     public static final String INVALID_NUMBER_ENTRY_0_8 = "Invalid number entry. (0-8)\n";
     public static final String MOVE_ALREADY_TAKEN = "Move already taken.\n";
     public static final String INVALID_YES_NO = "Invalid input ( yes or no).\n";
-    public static final String NEW_GAME_PROMPT = "Start a new game?\n";
     private static final String ANSI_CLS = "\u001b[2J";
     private static final String ANSI_HOME = "\u001b[H";
 
@@ -43,9 +42,7 @@ public class ConsoleUi implements Ui {
 
     @Override
     public boolean doesUserWantToStartNewGame() throws InvalidInputEntryException{
-        String errorMessage = "";
         try {
-            output.print(errorMessage + NEW_GAME_PROMPT);
             String input = tryToGetValidYesOrNoInput();
             return (isStringYes(input));
         } catch (IOException e) {

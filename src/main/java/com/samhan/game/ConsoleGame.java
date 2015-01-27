@@ -11,6 +11,7 @@ public class ConsoleGame implements Game{
 
     private static final String TOP_MESSAGE = "Tic Tac Toe\n\n Player = x\n Computer = o\n\n";
     private static final String GET_MOVE_MESSAGE = "Enter move:\n";
+    private static final String NEW_GAME_PROMPT = "Start a new game?\n";
     public static final int NUMBER_OF_PLAYERS = 2;
     public static final String THANKS_FOR_PLAYING = "Thanks for playing.";
     public static final String WINS_MESSAGE = " wins";
@@ -135,6 +136,6 @@ public class ConsoleGame implements Game{
     }
 
     public void setEndGameMessage() {
-        bottomMessage = "Game Over\n\n" +getResultText() + "\n\n";
+        bottomMessage = "Game Over\n\n" +getResultText() + "\n\n" + NEW_GAME_PROMPT;
     }
 }

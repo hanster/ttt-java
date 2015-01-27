@@ -112,12 +112,12 @@ public class ConsoleUiTest {
         assertEquals(ConsoleUi.INVALID_YES_NO, exceptionMessage);
     }
 
-    @Test
-    public void checkNewGamePrompt(){
-        setUpQueuedConsoleInput(new String [] {"y"});
-        assertEquals(true, consoleUi.doesUserWantToStartNewGame());
-        assertEquals("Start a new game?\n", output.toString());
-    }
+//    @Test
+//    public void checkNewGamePrompt(){
+//        setUpQueuedConsoleInput(new String [] {"y"});
+//        assertEquals(true, consoleUi.doesUserWantToStartNewGame());
+//        assertEquals("Start a new game?\n", output.toString());
+//    }
 
 
     @Test

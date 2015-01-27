@@ -41,6 +41,10 @@ public class Board {
         this.positions = positions.toCharArray();
     }
 
+    public Board(final char[] positions) {
+        this.positions = positions;
+    }
+
     public String toString() {
         return new String(positions);
     }
@@ -49,7 +53,7 @@ public class Board {
         char[] newPositions = positions.clone();
         newPositions[position] = marker.asChar();
 
-        return new Board(new String(newPositions));
+        return new Board(newPositions);
     }
 
     public boolean isPositionFree(final int position) {
